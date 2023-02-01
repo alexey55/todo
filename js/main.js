@@ -2,8 +2,16 @@
 const form = document.querySelector('#form');
 const taskInput = document.querySelector('#taskInput');
 const tasksList = document.querySelector('#tasksList');
+const emptyList = document.querySelector('#emptyList');
 
-form.addEventListener('submit', function(e) {
+// Добавление задачи
+form.addEventListener('submit', addTask);
+
+// Удаление задачи
+tasksList.addEventListener('click', deleteTask);
+
+// Функции
+function addTask (e) {
     // отменяем отправку формы
     e.preventDefault();
     
@@ -27,4 +35,23 @@ form.addEventListener('submit', function(e) {
     // Очищаем поле ввода и возвращаем на него фокус
     taskInput.value = "";
     taskInput.focus();
-})
+
+    if(tasksList.children.length > 1) {
+        emptyList.classList.add('none');
+    }
+}
+
+function deleteTask (e) {
+    console.log(e.target);
+
+    if(e.target.dataset.action === 'delete') {
+        console.log('delete');
+        const parentNode = e.target.closest('.list-group-item');
+        console.log(parentNode);
+        parentNode.remove();
+    }
+
+    if(tasksList.children.length === 1) {
+        emptyList.classList.remove('none');
+    }
+}
