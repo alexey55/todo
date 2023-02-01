@@ -10,6 +10,9 @@ form.addEventListener('submit', addTask);
 // Удаление задачи
 tasksList.addEventListener('click', deleteTask);
 
+// Отмечаем задачу завершенной
+tasksList.addEventListener('click', doneTask);
+
 // Функции
 function addTask (e) {
     // отменяем отправку формы
@@ -42,16 +45,20 @@ function addTask (e) {
 }
 
 function deleteTask (e) {
-    console.log(e.target);
-
     if(e.target.dataset.action === 'delete') {
-        console.log('delete');
         const parentNode = e.target.closest('.list-group-item');
-        console.log(parentNode);
         parentNode.remove();
     }
 
     if(tasksList.children.length === 1) {
         emptyList.classList.remove('none');
+    }
+}
+
+function doneTask(e) {
+    if (e.target.dataset.action === 'done') {
+        const parentNode = e.target.closest('.list-group-item');
+        const taskTitle = parentNode.querySelector('.task-title');
+        taskTitle.classList.toggle('task-title--done');
     }
 }
